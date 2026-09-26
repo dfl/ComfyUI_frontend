@@ -80,6 +80,13 @@ const pendingWorkflowLoadsByPath = new Map<string, Promise<unknown>>()
 // Object identity, not path: a mid-close rename would strand a path key.
 const closingWorkflowCounts = new Map<ComfyWorkflow, number>()
 
+class WorkflowGraphLoadError extends Error {
+  constructor(workflowPath: string) {
+    super(`Failed to load workflow graph: ${workflowPath}`)
+    this.name = 'WorkflowGraphLoadError'
+  }
+}
+
 /** The registry key: raw instance, so reactive proxies and raw references agree. */
 function closingKey(workflow: ComfyWorkflow): ComfyWorkflow {
   return toRaw(workflow)
@@ -378,9 +385,10 @@ export const useWorkflowService = () => {
    * Open a workflow in the current workspace
    * @param workflow The workflow to open
    * @param options The options for opening the workflow
-   * @returns false when the graph load reported failure (the error
-   * dialog was shown and the workflow never painted) or when the open
-   * was skipped because the workflow is mid-close; true otherwise
+   * @returns false when the open was skipped because the workflow is
+   * mid-close; true otherwise
+   * @throws {WorkflowGraphLoadError} when the graph load reports failure,
+   * after restoring the retained workflow
    */
   /**
    * A failed replacement load leaves the shared root graph cleaned or
@@ -452,7 +460,7 @@ export const useWorkflowService = () => {
           // stay newest (guarded no-op when the publish already superseded).
           useSubgraphNavigationStore().endWorkflowNavigation(navigationIntentId)
           await restoreRetainedWorkflow(workflow)
-          return false
+          throw new WorkflowGraphLoadError(workflow.path)
         }
         showPendingWarnings(undefined, {
           silent: !loadFromRemote && !options.force

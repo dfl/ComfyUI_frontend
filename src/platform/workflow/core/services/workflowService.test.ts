@@ -557,7 +557,9 @@ describe('useWorkflowService', () => {
 
       await expect(
         useWorkflowService().closeWorkflow(closing, { warnIfUnsaved: false })
-      ).resolves.toBe(false)
+      ).rejects.toThrow(
+        'Failed to load workflow graph: workflows/replacement.json'
+      )
 
       expect(storeClose).not.toHaveBeenCalled()
       expect(useWorkflowDraftStoreV2().removeDraft).not.toHaveBeenCalled()
@@ -613,8 +615,8 @@ describe('useWorkflowService', () => {
       vi.mocked(app.loadGraphData).mockClear()
       vi.mocked(app.loadGraphData).mockResolvedValueOnce(false)
 
-      await expect(useWorkflowService().openWorkflow(failing)).resolves.toBe(
-        false
+      await expect(useWorkflowService().openWorkflow(failing)).rejects.toThrow(
+        'Failed to load workflow graph: workflows/failing.json'
       )
 
       // Second call = the retained workflow repainted from its saved state,
@@ -1563,7 +1565,8 @@ describe('useWorkflowService', () => {
       await vi.waitFor(() => expect(app.loadGraphData).toHaveBeenCalledTimes(2))
       const staleOpen = service.openWorkflow(closing)
       resolveReplacement?.()
-      await Promise.all([secondClose, staleOpen])
+      await expect(staleOpen).resolves.toBe(false)
+      await secondClose
 
       expect(app.loadGraphData).toHaveBeenCalledTimes(2)
       expect(workflowStore.openWorkflows).not.toContain(closing)
