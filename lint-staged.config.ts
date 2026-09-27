@@ -71,7 +71,7 @@ function lintCommands(
     ),
     ...commandsWithFiles(
       [...codeFiles, ...astroFiles].filter(isEslintFile),
-      `pnpm exec eslint --cache --cache-strategy content --concurrency auto --fix --no-warn-ignored ${skipCanonicalClasses}`
+      `pnpm exec eslint --cache --concurrency auto --fix --no-warn-ignored ${skipCanonicalClasses}`
     )
   ]
 }
