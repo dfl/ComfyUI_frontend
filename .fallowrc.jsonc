@@ -146,5 +146,7 @@
     "dupesBaseline": ".fallow-baselines/dupes.json"
   },
 
-  "rules": {}
+  "rules": {
+    "dev-dependencies-in-production": "error"
+  }
 }
