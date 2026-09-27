@@ -3,10 +3,10 @@
 
   // Runtime entry points fallow cannot infer.
   "entry": [
-    "src/main.ts",
-    "index.html",
     // Astro injects these routes when WORKSHOP_IN_BUILD is enabled.
-    "apps/website/src/routes/models/*.{astro,ts}"
+    "apps/website/src/routes/models/*.{astro,ts}",
+    "index.html",
+    "src/main.ts"
   ],
 
   // Keep tooling and test roots reachable without treating their imports as
@@ -15,19 +15,19 @@
     {
       "name": "comfyui-support-entry-points",
       "entryPoints": [
-        "scripts/**/*.{js,ts}",
-        "apps/website/src/scripts/**/*.ts",
         "**/.storybook/{main,preview}.ts",
-        "packages/ingest-types/openapi-ts.config.ts"
+        "apps/website/src/scripts/**/*.ts",
+        "packages/ingest-types/openapi-ts.config.ts",
+        "scripts/**/*.{js,ts}"
       ],
       "entryPointRole": "support"
     },
     {
       "name": "comfyui-test-entry-points",
       "entryPoints": [
-        "src/**/__mocks__/**/*.ts",
         "apps/website/src/**/__mocks__/**/*.ts",
-        "browser_tests/global{Setup,Teardown}.ts"
+        "browser_tests/global{Setup,Teardown}.ts",
+        "src/**/__mocks__/**/*.ts"
       ],
       "entryPointRole": "test"
     }
