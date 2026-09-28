@@ -136,6 +136,10 @@ export function useReshoot({ locale = 'en' }: { locale?: Locale } = {}) {
     scene.value.phase === 'ready' ? scene.value.geometry.frames : RESHOOT_FRAMES
   )
 
+  const quoteRefusesCredit = computed(
+    () =>
+      !rendering.value && quote.value?.blocked_reason === 'insufficient_credits'
+  )
   const gate = computed(() =>
     studioGate({
       runEnabled: !unavailable.value,
@@ -144,9 +148,7 @@ export function useReshoot({ locale = 'en' }: { locale?: Locale } = {}) {
       authAvailable: authEnabled.value && !sessionFailure.value,
       sessionSettled: settled.value && !(user.value && !session.value),
       role: session.value?.role,
-      outOfCredits:
-        !rendering.value &&
-        quote.value?.blocked_reason === 'insufficient_credits'
+      credits: quoteRefusesCredit.value ? 0 : undefined
     })
   )
   const canGenerate = computed(
