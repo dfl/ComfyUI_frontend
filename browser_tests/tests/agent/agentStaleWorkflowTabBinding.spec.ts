@@ -25,7 +25,7 @@ import { loadAgentConversation } from '@e2e/fixtures/data/agent/agentConversatio
 import { jsonRoute } from '@e2e/fixtures/utils/jsonRoute'
 
 const OPEN_AGENT_LABEL = enMessages.agent.entryButton
-const E2E_SCOPE = unsafeStorageScope('test-user-e2e:personal')
+const E2E_SCOPE = unsafeStorageScope('test-user-e2e:ws-personal')
 const BINDING_KEY = StorageKeys.agentWorkflowTabBindings(E2E_SCOPE)
 const THREAD_KEY = StorageKeys.agentThread(E2E_SCOPE)
 const DEFAULT_TAB_PATH = 'workflows/Unsaved Workflow.json'
