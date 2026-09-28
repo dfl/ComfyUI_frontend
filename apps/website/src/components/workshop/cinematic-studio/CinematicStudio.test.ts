@@ -144,7 +144,7 @@ describe('CinematicStudio', () => {
     const [slug, parameters, options] = vi.mocked(router_render).mock.calls[0]
     expect(slug).toBe(first.slug)
     expect(parameters).toMatchObject({
-      aspect_ratio: '21:9',
+      aspect_ratio: '16:9',
       resolution: 2048,
       prompt: expect.stringMatching(
         /^Medium shot\. A diner at dawn .*Shot on large format cinema camera/
@@ -159,7 +159,7 @@ describe('CinematicStudio', () => {
       'src',
       'blob:shot'
     )
-    expect(screen.getByText(`${first.name} · 21:9`)).toBeInTheDocument()
+    expect(screen.getByText(`${first.name} · 16:9`)).toBeInTheDocument()
   })
 
   it('runs the shot on the model picked in the composer', async () => {
@@ -673,8 +673,8 @@ describe('CinematicStudio', () => {
         ? {
             ...model,
             prices: {
-              '21:9 2K 0': { min: 6, max: 6 },
-              '21:9 1K 0': { min: 3, max: 3 }
+              '16:9 2K 0': { min: 6, max: 6 },
+              '16:9 1K 0': { min: 3, max: 3 }
             }
           }
         : model
