@@ -12,6 +12,7 @@ import * as Y from 'yjs'
 
 import { reportError } from '@/platform/telemetry/reportError'
 import { api } from '@/scripts/api'
+import type { RemoteMutationContext } from '@/types/graphMutationContext'
 import { parseNodeId } from '@/types/nodeId'
 import type { NodeId } from '@/types/nodeId'
 import { createUuidv4 } from '@/utils/uuid'
