@@ -32,6 +32,8 @@ const {
   takes,
   cast,
   palette,
+  colors,
+  mainColor,
   promptSegments,
   estimate,
   memberWorkspace,
@@ -85,6 +87,8 @@ function generate() {
         v-model:takes="takes"
         v-model:cast="cast"
         v-model:palette="palette"
+        v-model:colors="colors"
+        v-model:main-color="mainColor"
         :models
         :prompt-segments="promptSegments"
         :gate="studio.gate.value"

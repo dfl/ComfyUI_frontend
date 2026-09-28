@@ -15,6 +15,7 @@ import { tc } from '../../../lib/workshop/cinematic-studio/copy'
 import RunLeaveDialog from '../RunLeaveDialog.vue'
 import AppsBackLink from './AppsBackLink.vue'
 import CinematicComposer from './CinematicComposer.vue'
+import CinematicColors from './CinematicColors.vue'
 import CinematicOutputControls from './CinematicOutputControls.vue'
 import CinematicPicker from './CinematicPicker.vue'
 import CinematicPopover from './CinematicPopover.vue'
@@ -40,6 +41,8 @@ const {
   takes,
   cast,
   palette,
+  colors,
+  mainColor,
   references,
   estimate,
   memberWorkspace,
@@ -167,6 +170,12 @@ function generateOn(slug: string) {
           <div v-if="popover === 'references'" class="grid grid-cols-2 gap-2">
             <CinematicReferenceSlot v-model="cast" kind="cast" :locale />
             <CinematicReferenceSlot v-model="palette" kind="palette" :locale />
+            <CinematicColors
+              v-model="colors"
+              v-model:main="mainColor"
+              class="col-span-2"
+              :locale
+            />
           </div>
           <div v-else class="flex flex-col gap-3">
             <CinematicOutputControls
