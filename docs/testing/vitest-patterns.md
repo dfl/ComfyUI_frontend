@@ -267,34 +267,3 @@ expect(store.completedItems[0]).toMatchObject({
   status: 'done'
 })
 ```
-
-## Measure test execution options
-
-Use Vitest 5's doctor command to compare execution options on the suite you
-intend to change. Run measurements without other builds or tests in parallel:
-
-```bash
-pnpm exec vitest doctor src/platform/assets/utils
-pnpm --filter @comfyorg/account-core exec vitest doctor
-```
-
-Doctor reports its best measured time, not a guaranteed CI improvement.
-Validate the entire affected suite before adopting its recommendation.
-
-`account-core` enables `fsModuleCache` to reuse transformed modules between
-processes. Its two projects have no custom Vite plugins. Keep filesystem caching
-off in the root frontend config until plugin-dependent inputs have cache keys:
-auto-discovered component mappings and environment-derived defines are not
-fully covered by Vitest's default key. See the
-[cache limitations](https://vitest.dev/config/fsmodulecache#known-issues).
-
-To compare account-core without caching, pass `--fsModuleCache=false`. To delete
-Vitest's workspace-wide caches, run `pnpm exec vitest --clearCache`.
-
-Use `--repeats` to test every case again even after it passes. This differs from
-`--retry`, which reruns only failures. For example, execute each usage-log test
-three times in a reproducible shuffled order:
-
-```bash
-pnpm test:unit src/components/dialog/content/setting/UsageLogsTable.test.ts --repeats=2 --sequence.shuffle --sequence.seed=19145
-```
