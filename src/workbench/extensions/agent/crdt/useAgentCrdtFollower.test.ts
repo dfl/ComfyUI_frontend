@@ -1108,7 +1108,7 @@ describe('useAgentCrdtFollower', () => {
         })
       ).toThrow('undo capture failed')
 
-      expect(adapterState.clearForFollowerReplacement).toHaveBeenCalledTimes(1)
+      expect(adapterState.clearForReset).toHaveBeenCalledTimes(1)
       expect(tracker.afterChange).toHaveBeenCalledTimes(1)
       expect(onReset).toHaveBeenCalledWith('wf-1')
       expect(status().connected).toBe(false)
@@ -1133,7 +1133,7 @@ describe('useAgentCrdtFollower', () => {
         dispatchFrame('follower_replaced', { workflowId: 'wf-1' })
       ).toThrow('undo capture failed')
 
-      expect(adapterState.clearForReset).toHaveBeenCalledTimes(1)
+      expect(adapterState.clearForFollowerReplacement).toHaveBeenCalledTimes(1)
       expect(adapterState.bind).toHaveBeenCalledTimes(2)
       expect(adapterState.bind).toHaveBeenLastCalledWith(
         'wf-1',
