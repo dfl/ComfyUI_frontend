@@ -1108,9 +1108,7 @@ describe('useAgentCrdtFollower', () => {
         })
       ).toThrow('undo capture failed')
 
-      expect(
-        adapterState.clearForFollowerReplacement
-      ).toHaveBeenCalledTimes(1)
+      expect(adapterState.clearForFollowerReplacement).toHaveBeenCalledTimes(1)
       expect(tracker.afterChange).toHaveBeenCalledTimes(1)
       expect(onReset).toHaveBeenCalledWith('wf-1')
       expect(status().connected).toBe(false)
