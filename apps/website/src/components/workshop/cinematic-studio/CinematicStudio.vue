@@ -35,6 +35,7 @@ const {
   enhance,
   direction,
   aspect,
+  aspects,
   resolution,
   takes,
   cast,
@@ -172,6 +173,7 @@ function generateOn(slug: string) {
               v-model:aspect="aspect"
               v-model:resolution="resolution"
               v-model:takes="takes"
+              :aspects
               :locale
             />
             <label

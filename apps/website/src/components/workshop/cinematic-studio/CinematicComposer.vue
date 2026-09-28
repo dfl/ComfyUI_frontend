@@ -15,6 +15,7 @@ import { directionOption } from '../../../lib/workshop/cinematic-studio/catalog'
 import type { ShotEstimate } from '../../../lib/workshop/cinematic-studio/estimate'
 import type { StudioGate } from '../../../lib/workshop/cinematic-studio/gate'
 import type { CinematicModel } from '../../../lib/workshop/cinematic-studio/models'
+import { takesReferences } from '../../../lib/workshop/cinematic-studio/models'
 import type { Locale } from '../../../i18n/translations'
 import { tc } from '../../../lib/workshop/cinematic-studio/copy'
 import { framedStyle } from './aspect-style'
@@ -83,7 +84,7 @@ const focalLabel = computed(() => {
 })
 const referencePreview = useObjectUrl(() => references[0])
 const blockedNote = computed(() =>
-  references.length > 0 && !model.value?.referenceSlug
+  !takesReferences(model.value, references.length)
     ? tc('cinematic.references.unsupported', locale, {
         model: model.value?.name ?? ''
       })

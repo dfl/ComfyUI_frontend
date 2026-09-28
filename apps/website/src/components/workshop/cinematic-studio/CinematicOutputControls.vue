@@ -16,18 +16,24 @@ import { tc } from '../../../lib/workshop/cinematic-studio/copy'
 import { framedStyle } from './aspect-style'
 import CinematicMenu from './CinematicMenu.vue'
 
-const { locale = 'en' } = defineProps<{ locale?: Locale }>()
+const { locale = 'en', aspects } = defineProps<{
+  locale?: Locale
+  /** The frames the chosen model can make; every frame when absent. */
+  aspects?: readonly AspectRatio[]
+}>()
 
 const aspect = defineModel<AspectRatio>('aspect', { required: true })
 const resolution = defineModel<Resolution>('resolution', { required: true })
 const takes = defineModel<number>('takes', { required: true })
 
 const aspectOptions = computed(() =>
-  ASPECT_RATIOS.map((ratio) => ({
-    id: ratio.id,
-    label: ratio.id,
-    meta: tc(ratio.label, locale)
-  }))
+  ASPECT_RATIOS.filter((ratio) => !aspects || aspects.includes(ratio.id)).map(
+    (ratio) => ({
+      id: ratio.id,
+      label: ratio.id,
+      meta: tc(ratio.label, locale)
+    })
+  )
 )
 const resolutionOptions = RESOLUTIONS.map((option) => ({
   id: option.id,

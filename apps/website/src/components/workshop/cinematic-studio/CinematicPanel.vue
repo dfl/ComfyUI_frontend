@@ -20,6 +20,10 @@ import type { Locale } from '../../../i18n/translations'
 import { t } from '../../../i18n/translations'
 import { tc } from '../../../lib/workshop/cinematic-studio/copy'
 import type { CinematicModel } from '../../../lib/workshop/cinematic-studio/models'
+import {
+  shotAspects,
+  takesReferences
+} from '../../../lib/workshop/cinematic-studio/models'
 import CinematicDirectionGrid from './CinematicDirectionGrid.vue'
 import CinematicGenerateAction from './CinematicGenerateAction.vue'
 import CinematicMenu from './CinematicMenu.vue'
@@ -85,7 +89,10 @@ const cameraSpecs = computed(() =>
     .filter((option) => option.id !== 'auto')
 )
 const blockedNote = computed(() =>
-  (cast.value || palette.value) && !model.value?.referenceSlug
+  !takesReferences(
+    model.value,
+    [cast.value, palette.value].filter(Boolean).length
+  )
     ? tc('cinematic.references.unsupported', locale, {
         model: model.value?.name ?? ''
       })
@@ -232,6 +239,7 @@ const cardClass =
           v-model:aspect="aspect"
           v-model:resolution="resolution"
           v-model:takes="takes"
+          :aspects="shotAspects(model, !!(cast || palette))"
           :locale
         />
       </section>
