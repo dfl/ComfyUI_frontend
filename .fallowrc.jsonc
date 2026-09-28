@@ -14,6 +14,7 @@
   "framework": [
     {
       "name": "comfyui-support-entry-points",
+      "enablers": ["fallow"],
       "entryPoints": [
         "**/.storybook/{main,preview}.ts",
         "apps/website/src/scripts/**/*.ts",
@@ -24,9 +25,11 @@
     },
     {
       "name": "comfyui-test-entry-points",
+      "enablers": ["@playwright/test"],
       "entryPoints": [
         "apps/website/src/**/__mocks__/**/*.ts",
         "browser_tests/global{Setup,Teardown}.ts",
+        "playwright.session.config.ts",
         "src/**/__mocks__/**/*.ts"
       ],
       "entryPointRole": "test"
