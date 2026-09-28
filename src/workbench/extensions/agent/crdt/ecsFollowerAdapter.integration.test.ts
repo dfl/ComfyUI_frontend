@@ -725,6 +725,7 @@ describe('EcsFollowerAdapter integration', () => {
       expect(telemetryState.reportError).toHaveBeenCalledExactlyOnceWith(
         failure,
         {
+          surface: 'agent',
           errorType: 'error_agent_reconcile_retry_threw',
           context: { workflowId: 'wf' }
         }
@@ -809,6 +810,7 @@ describe('EcsFollowerAdapter integration', () => {
       expect(telemetryState.reportError).toHaveBeenCalledExactlyOnceWith(
         sweepFailure,
         {
+          surface: 'agent',
           errorType: 'error_agent_reconcile_live_sweep_threw',
           context: { workflowId: 'wf' }
         }

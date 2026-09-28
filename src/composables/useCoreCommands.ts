@@ -931,6 +931,7 @@ export function useCoreCommands(): ComfyCommand[] {
               life: 5000
             })
             reportError(result.cause, {
+              surface: 'graph',
               errorType: 'error_resetting_onboarding_state'
             })
             return

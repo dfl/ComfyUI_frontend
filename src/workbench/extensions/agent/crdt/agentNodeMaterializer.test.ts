@@ -886,6 +886,7 @@ describe('reconcileAgentAdapters', () => {
       expect(reportError).toHaveBeenCalledWith(
         'LiteGraph: max number of nodes in a graph reached',
         expect.objectContaining({
+          surface: 'agent',
           errorType: 'agent_node_materialize_add_failed',
           tags: {
             failure_kind: 'caught_unexpected',
@@ -969,6 +970,7 @@ describe('reconcileAgentAdapters', () => {
       expect(reportError).toHaveBeenCalledWith(
         expect.any(Error),
         expect.objectContaining({
+          surface: 'agent',
           errorType: 'agent_node_materialize_configure_failed',
           tags: {
             failure_kind: 'caught_unexpected',
@@ -1119,6 +1121,7 @@ describe('reconcileAgentAdapters', () => {
       expect(reportError).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining({
+          surface: 'agent',
           errorType: 'agent_node_materialize_add_failed',
           tags: expect.objectContaining({ outcome: 'degraded' })
         })
@@ -1126,6 +1129,7 @@ describe('reconcileAgentAdapters', () => {
       expect(reportError).toHaveBeenCalledWith(
         expect.anything(),
         expect.objectContaining({
+          surface: 'agent',
           errorType: 'agent_node_materialize_rollback_failed'
         })
       )
@@ -1563,6 +1567,7 @@ describe('reconcileAgentAdapters', () => {
       expect(reportError).toHaveBeenCalledExactlyOnceWith(
         expect.objectContaining({ message: 'interior node rejected' }),
         {
+          surface: 'agent',
           errorType: 'agent_subgraph_definitions_failed',
           tags: {
             failure_kind: 'caught_unexpected',
@@ -1612,6 +1617,7 @@ describe('reconcileAgentAdapters', () => {
       expect(reportError).toHaveBeenCalledExactlyOnceWith(
         expect.any(AggregateError),
         {
+          surface: 'agent',
           errorType: 'agent_subgraph_definitions_failed',
           tags: expect.objectContaining({
             failure_kind: 'caught_unexpected',
@@ -1722,6 +1728,7 @@ describe('reconcileAgentAdapters', () => {
       expect(graph.subgraphs.has(good.id)).toBe(true)
       expect(graph.getNodeById(toNodeId(2))).toBeInstanceOf(SubgraphNode)
       expect(reportError).toHaveBeenCalledExactlyOnceWith(expect.anything(), {
+        surface: 'agent',
         errorType: 'agent_subgraph_definitions_failed',
         tags: expect.objectContaining({
           failure_kind: 'caught_unexpected',
@@ -1788,6 +1795,7 @@ describe('reconcileAgentAdapters', () => {
       expect(subgraphDefinitionReadState(graph, definition.id)).toBe('failed')
       expect(created).not.toHaveBeenCalled()
       expect(reportError).toHaveBeenCalledExactlyOnceWith(expect.anything(), {
+        surface: 'agent',
         errorType: 'agent_subgraph_definitions_failed',
         tags: expect.objectContaining({
           failure_kind: 'caught_unexpected',
@@ -1896,6 +1904,7 @@ describe('reserved-bit mint-convention guard', () => {
 
       expect(graph.getNodeById(id)).toBeTruthy()
       expect(reportError).toHaveBeenCalledExactlyOnceWith(expect.anything(), {
+        surface: 'agent',
         errorType: 'agent_node_id_reserved_bit_violation',
         tags: expect.objectContaining({
           feature_area: 'agent',
@@ -1982,6 +1991,7 @@ describe('node id write-drop guard', () => {
     expect(graph.getNodeById(toNodeId(COLLIDED_ID))?.type).toBe('widget-node')
     expect(graph._nodes).not.toContain(dropped)
     expect(reportError).toHaveBeenCalledExactlyOnceWith(expect.anything(), {
+      surface: 'agent',
       errorType: 'agent_node_id_collision_write_dropped',
       tags: expect.objectContaining({
         feature_area: 'agent',

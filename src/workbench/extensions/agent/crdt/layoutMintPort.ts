@@ -157,6 +157,7 @@ export function attachLayoutMintPort(deps: LayoutMintPortDeps): LayoutMintPort {
           `${action}Node has no ownerGraphId; refusing to mint (root-vs-subgraph is unknown)`
         ),
         {
+          surface: 'agent',
           errorType: `agent_crdt_missing_owner_graph_id_${action}`,
           context: { graphId: operation.graphId, nodeId: operation.nodeId }
         }
@@ -176,6 +177,7 @@ export function attachLayoutMintPort(deps: LayoutMintPortDeps): LayoutMintPort {
         `Subgraph-interior node ${action} has no wire op; the bound doc diverges from the local graph`
       ),
       {
+        surface: 'agent',
         errorType: `agent_crdt_unrepresentable_subgraph_node_${action}`,
         context: {
           graphId: operation.graphId,
@@ -220,6 +222,7 @@ export function attachLayoutMintPort(deps: LayoutMintPortDeps): LayoutMintPort {
         `${opName} targets graph ${operation.graphId}, not the bound document's root graph ${boundRootGraphId}; refusing to mint`
       ),
       {
+        surface: 'agent',
         errorType: 'agent_crdt_op_for_unbound_graph',
         context: {
           graphId: operation.graphId,

@@ -169,6 +169,7 @@ function registerSubgraphDefinitions(
     if (reported.has(definition.id)) continue
     reported.add(definition.id)
     reportError(failure, {
+      surface: 'agent',
       errorType: 'agent_subgraph_definitions_failed',
       tags: { ...AGENT_ECS_TAGS, outcome: 'degraded' },
       context: { graphId: graph.id, definitionId: definition.id }
@@ -361,6 +362,7 @@ function materialize(
     }
     restore()
     reportError(cause, {
+      surface: 'agent',
       errorType: 'agent_node_materialize_add_failed',
       tags: {
         ...AGENT_ECS_TAGS,
@@ -370,6 +372,7 @@ function materialize(
     })
     if (cleanupFailed) {
       reportError(cleanupCause, {
+        surface: 'agent',
         errorType: 'agent_node_materialize_rollback_failed',
         tags: { ...AGENT_ECS_TAGS, outcome: 'degraded' },
         context: { graphId: graph.id, nodeId: String(state.id) }
@@ -436,6 +439,7 @@ function materialize(
     // The node is attached and consistent with the stores; removing it here
     // would also drop the layout entry it adopted. Keep it and report.
     reportError(cause, {
+      surface: 'agent',
       errorType: 'agent_node_materialize_configure_failed',
       tags: { ...AGENT_ECS_TAGS, outcome: 'degraded' },
       context: { graphId: graph.id, nodeId: String(state.id) }
@@ -470,6 +474,7 @@ function reportReservedBitViolation(
       `Remote node id ${String(nodeId)} on a CRDT-bound graph carries neither reserved mint bit (the agent's nor this app's)`
     ),
     {
+      surface: 'agent',
       errorType: 'agent_node_id_reserved_bit_violation',
       tags: { ...AGENT_ECS_TAGS, outcome: 'degraded' },
       context: { graphId: graph.id, nodeId: String(nodeId) }
@@ -540,6 +545,7 @@ function reportNodeIdWriteDropped(
       `Node id ${String(state.id)} changed class from ${liveClass} to ${docClass} at the same id`
     ),
     {
+      surface: 'agent',
       errorType: 'agent_node_id_collision_write_dropped',
       tags: { ...AGENT_ECS_TAGS, outcome: 'degraded' },
       context: {

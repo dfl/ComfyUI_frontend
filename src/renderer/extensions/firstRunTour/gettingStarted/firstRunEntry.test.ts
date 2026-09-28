@@ -793,6 +793,7 @@ describe('useFirstRunEntry', () => {
     await entry.dismissGettingStarted()
 
     expect(reportError).toHaveBeenCalledExactlyOnceWith(expect.any(Error), {
+      surface: 'platform',
       errorType: 'failure_writing_tutorial_completed_setting',
       level: 'warning'
     })

@@ -184,6 +184,7 @@ describe('attachLayoutMintPort', () => {
 
     expect(minted.filter((op) => op.op === 'add_node')).toHaveLength(1)
     expect(reportError).toHaveBeenCalledWith(expect.any(Error), {
+      surface: 'agent',
       errorType: 'agent_crdt_op_for_unbound_graph',
       context: { graphId: 'other', boundRootGraphId: 'root', nodeId: '1' }
     })
@@ -273,6 +274,7 @@ describe('attachLayoutMintPort', () => {
 
     expect(minted.filter((op) => op.op === 'add_node')).toHaveLength(1)
     expect(reportError).toHaveBeenCalledWith(expect.any(Error), {
+      surface: 'agent',
       errorType: 'agent_crdt_op_for_unbound_graph',
       context: { graphId: 'other', boundRootGraphId: 'root', nodeId: undefined }
     })
@@ -438,6 +440,7 @@ describe('attachLayoutMintPort', () => {
         message: expect.stringContaining('Subgraph-interior node create')
       }),
       {
+        surface: 'agent',
         errorType: 'agent_crdt_unrepresentable_subgraph_node_create',
         context: {
           graphId: 'root',
@@ -452,6 +455,7 @@ describe('attachLayoutMintPort', () => {
         message: expect.stringContaining('Subgraph-interior node delete')
       }),
       {
+        surface: 'agent',
         errorType: 'agent_crdt_unrepresentable_subgraph_node_delete',
         context: {
           graphId: 'root',
@@ -475,6 +479,7 @@ describe('attachLayoutMintPort', () => {
 
     expect(reportError).toHaveBeenCalledOnce()
     expect(reportError).toHaveBeenLastCalledWith(expect.any(Error), {
+      surface: 'agent',
       errorType: 'agent_crdt_unrepresentable_subgraph_node_delete',
       context: {
         graphId: 'root',
@@ -518,6 +523,7 @@ describe('attachLayoutMintPort', () => {
         message: expect.stringContaining('createNode has no ownerGraphId')
       }),
       {
+        surface: 'agent',
         errorType: 'agent_crdt_missing_owner_graph_id_create',
         context: { graphId: 'root', nodeId: '1' }
       }
@@ -528,6 +534,7 @@ describe('attachLayoutMintPort', () => {
         message: expect.stringContaining('deleteNode has no ownerGraphId')
       }),
       {
+        surface: 'agent',
         errorType: 'agent_crdt_missing_owner_graph_id_delete',
         context: { graphId: 'root', nodeId: '1' }
       }
@@ -579,6 +586,7 @@ describe('attachLayoutMintPort', () => {
       expect(minted).toEqual([])
       expect(reportError).toHaveBeenCalledOnce()
       expect(reportError).toHaveBeenLastCalledWith(expect.any(Error), {
+        surface: 'agent',
         errorType: 'agent_crdt_op_for_unbound_graph',
         context: { graphId: 'other', boundRootGraphId: 'root', nodeId: '1' }
       })

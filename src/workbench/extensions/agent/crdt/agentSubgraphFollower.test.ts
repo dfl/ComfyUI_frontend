@@ -499,6 +499,7 @@ describe('agent CRDT follower on a SubgraphNode with promoted widgets', () => {
         message: expect.stringContaining("'bogus'")
       }),
       expect.objectContaining({
+        surface: 'agent',
         errorType: 'error_reconciling_agent_subgraph_host_slot',
         context: expect.objectContaining({
           nodeId: '1',
@@ -626,6 +627,7 @@ describe('agent CRDT follower on a SubgraphNode with promoted widgets', () => {
         message: expect.stringContaining('carries 2 opaque widget values')
       }),
       expect.objectContaining({
+        surface: 'agent',
         errorType: 'error_reconciling_agent_subgraph_host_widgets',
         context: expect.objectContaining({ expected: 1, actual: 2 })
       })
@@ -857,6 +859,7 @@ describe('agent CRDT follower on a SubgraphNode with promoted widgets', () => {
     expect(reportError).toHaveBeenCalledWith(
       expect.any(Error),
       expect.objectContaining({
+        surface: 'agent',
         errorType: 'error_reconciling_agent_subgraph_host_widgets',
         context: expect.objectContaining({ expected: 1, actual: 0 })
       })

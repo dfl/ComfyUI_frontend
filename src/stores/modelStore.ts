@@ -540,7 +540,10 @@ export const useModelStore = defineStore('models', () => {
     () => flags.assetsEnabled,
     () => {
       reloadModels().catch((error) => {
-        reportError(error, { errorType: 'model_library_capability_reload' })
+        reportError(error, {
+          surface: 'assets',
+          errorType: 'model_library_capability_reload'
+        })
       })
     }
   )
@@ -550,7 +553,10 @@ export const useModelStore = defineStore('models', () => {
     () =>
       flags.assetsEnabled &&
       reloadModels().catch((error) => {
-        reportError(error, { errorType: 'model_library_capability_reload' })
+        reportError(error, {
+          surface: 'assets',
+          errorType: 'model_library_capability_reload'
+        })
       })
   )
 

@@ -145,12 +145,15 @@ describe('resolveFollowerEnabled', () => {
     ).toBe(true)
     expect(reportError).toHaveBeenCalledTimes(3)
     expect(reportError).toHaveBeenNthCalledWith(1, expect.any(DOMException), {
+      surface: 'agent',
       errorType: 'agent_crdt_follower_storage_access_failed'
     })
     expect(reportError).toHaveBeenNthCalledWith(2, expect.any(DOMException), {
+      surface: 'agent',
       errorType: 'agent_crdt_follower_storage_access_failed'
     })
     expect(reportError).toHaveBeenNthCalledWith(3, expect.any(DOMException), {
+      surface: 'agent',
       errorType: 'agent_crdt_follower_storage_access_failed'
     })
   })

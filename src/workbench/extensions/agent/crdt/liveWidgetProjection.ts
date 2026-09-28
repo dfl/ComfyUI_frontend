@@ -230,6 +230,7 @@ export function applyLiveWidgetValue(
         const cause = rollbackError ?? recordedRollbackError
         if (cause) {
           reportError(cause, {
+            surface: 'agent',
             errorType: 'agent_live_widget_projection_rollback_failed',
             context: { nodeId, name, scope }
           })
@@ -239,6 +240,7 @@ export function applyLiveWidgetValue(
     })
   } catch (error) {
     reportError(error, {
+      surface: 'agent',
       errorType: 'agent_live_widget_projection_failed',
       context: { nodeId, name, scope }
     })

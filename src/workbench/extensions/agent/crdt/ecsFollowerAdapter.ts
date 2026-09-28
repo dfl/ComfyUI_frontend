@@ -152,6 +152,7 @@ function readSemanticNode(
             `Subgraph host ${id} (${type}) carries ${opaque.length} opaque widget values but its definition promotes ${names.length}`
           ),
           {
+            surface: 'agent',
             errorType: 'error_reconciling_agent_subgraph_host_widgets',
             context: {
               nodeId: id,
@@ -224,6 +225,7 @@ function reportInvalidHostTarget(
       `Subgraph host ${targetId} (${String(type)}) link targets doc slot ${docSlot} (${displayName}), which its definition does not declare unambiguously`
     ),
     {
+      surface: 'agent',
       errorType: 'error_reconciling_agent_subgraph_host_slot',
       context: { nodeId: targetId, type, slot: docSlot, name: name ?? null }
     }
@@ -340,6 +342,7 @@ function excludeIncompatibleLinks(
         `Link ${link.id} (node ${link.originNodeId} slot ${link.originSlot} -> node ${link.targetNodeId} slot ${link.targetSlot}) has an incompatible origin/target type and will not be projected`
       ),
       {
+        surface: 'agent',
         errorType: 'error_reconciling_agent_incompatible_link_type',
         context: {
           linkId: link.id,
@@ -887,6 +890,7 @@ export class EcsFollowerAdapter {
           reportError(
             error instanceof Error ? error : new Error(String(error)),
             {
+              surface: 'agent',
               errorType: 'error_agent_reconcile_retry_threw',
               context: { workflowId: session.workflowId }
             }
@@ -918,6 +922,7 @@ export class EcsFollowerAdapter {
         session.liveSweepRecovery = { kind: 'idle' }
     } catch (error) {
       reportError(error instanceof Error ? error : new Error(String(error)), {
+        surface: 'agent',
         errorType: 'error_agent_reconcile_live_sweep_threw',
         context: { workflowId: session.workflowId }
       })

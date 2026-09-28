@@ -1078,6 +1078,7 @@ describe('useAuthStore', () => {
         mockReportError,
         'a silently orphaned account bricks every retry with email-already-in-use and nobody learns'
       ).toHaveBeenCalledExactlyOnceWith(expect.any(Error), {
+        surface: 'auth',
         errorType: 'auth_signup_rollback_failed'
       })
     })

@@ -57,6 +57,7 @@ function tryGet(storage: FollowerGateInput['storage']): string | null {
     return storage?.getItem(FOLLOWER_STORAGE_KEY) ?? null
   } catch (error) {
     reportError(error, {
+      surface: 'agent',
       errorType: 'agent_crdt_follower_storage_access_failed'
     })
     return null
@@ -68,6 +69,7 @@ function trySet(storage: FollowerGateInput['storage'], value: string): void {
     storage?.setItem(FOLLOWER_STORAGE_KEY, value)
   } catch (error) {
     reportError(error, {
+      surface: 'agent',
       errorType: 'agent_crdt_follower_storage_access_failed'
     })
     // Storage denied: the session still enables via the param; it just will
@@ -80,6 +82,7 @@ function tryRemove(storage: FollowerGateInput['storage']): void {
     storage?.removeItem(FOLLOWER_STORAGE_KEY)
   } catch (error) {
     reportError(error, {
+      surface: 'agent',
       errorType: 'agent_crdt_follower_storage_access_failed'
     })
     // Storage denied: nothing was persisted, so nothing to clear.

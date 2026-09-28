@@ -901,6 +901,7 @@ describe('billingOperationStore', () => {
 
       await expect(terminal).resolves.toMatchObject({ status: 'succeeded' })
       expect(mockReportError).toHaveBeenCalledWith(error, {
+        surface: 'billing',
         errorType: 'failure_handling_billing_operation_success',
         context: { billing_op_id: 'op-1' }
       })
@@ -924,6 +925,7 @@ describe('billingOperationStore', () => {
 
       await expect(terminal).resolves.toMatchObject({ status: 'succeeded' })
       expect(mockReportError).toHaveBeenCalledWith(error, {
+        surface: 'billing',
         errorType: 'failure_handling_billing_operation_success',
         context: { billing_op_id: 'op-1' }
       })

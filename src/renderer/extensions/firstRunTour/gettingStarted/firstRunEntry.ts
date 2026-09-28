@@ -156,6 +156,7 @@ export const useFirstRunEntry = createSharedComposable(() => {
       await settingStore.set('Comfy.TutorialCompleted', true)
     } catch (error) {
       reportError(error, {
+        surface: 'platform',
         errorType: 'failure_writing_tutorial_completed_setting',
         level: 'warning'
       })

@@ -201,6 +201,7 @@ describe('pasting a subgraph blueprint through insert_workflow', () => {
     expect(vi.mocked(reportError)).not.toHaveBeenCalledWith(
       expect.anything(),
       expect.objectContaining({
+        surface: 'agent',
         errorType: 'error_reconciling_agent_subgraph_host_widgets'
       })
     )

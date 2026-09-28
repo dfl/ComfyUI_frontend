@@ -141,6 +141,7 @@ describe('attachLinkMintPort', () => {
 
     expect(minted).toEqual([])
     expect(reportError).toHaveBeenCalledWith(expect.any(Error), {
+      surface: 'agent',
       errorType: 'agent_crdt_reporting_unrepresentable_link_operation',
       context: { id: 41 }
     })
@@ -215,6 +216,7 @@ describe('attachLinkMintPort', () => {
 
     expect(minted).toEqual([])
     expect(reportError).toHaveBeenCalledWith(expect.any(Error), {
+      surface: 'agent',
       errorType: 'agent_crdt_reporting_unrepresentable_link_operation',
       context: { id: '41' }
     })

@@ -428,6 +428,7 @@ describe('applyLiveWidgetValue', () => {
     expect(reportError).toHaveBeenCalledWith(
       expect.objectContaining({ message: 'store write failed' }),
       expect.objectContaining({
+        surface: 'agent',
         errorType: 'agent_live_widget_projection_failed'
       })
     )
