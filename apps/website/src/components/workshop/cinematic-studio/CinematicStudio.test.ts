@@ -52,6 +52,20 @@ vi.mock(import('astro:env/client'), () => ({
 const models = runnableCinematicModels(getRouterWorkshopModelDetail)
 const [first, second] = models
 
+/** What a take sent: the studio's own form, and the files attached to it. */
+function sent(call: Parameters<typeof router_render>) {
+  const values = call[2].form?.values ?? {}
+  const references: File[] = []
+  const collect = (value: unknown): void => {
+    if (value instanceof File) references.push(value)
+    else if (Array.isArray(value)) value.forEach(collect)
+    else if (value && typeof value === 'object')
+      Object.values(value).forEach(collect)
+  }
+  collect(values)
+  return { values, prompt: String(values.prompt ?? ''), references }
+}
+
 const { fetchData } = vi.hoisted(() => ({ fetchData: vi.fn<typeof fetch>() }))
 
 async function servePageData(input: RequestInfo | URL) {
@@ -143,9 +157,11 @@ describe('CinematicStudio', () => {
     expect(router_render).toHaveBeenCalledTimes(2)
     const [slug, parameters, options] = vi.mocked(router_render).mock.calls[0]
     expect(slug).toBe(first.slug)
-    expect(parameters).toMatchObject({
-      aspect_ratio: '16:9',
-      resolution: 2048,
+    // The shot's own form: the exact frame size, no watermark, no example.
+    expect(parameters).toEqual({})
+    expect(sent(vi.mocked(router_render).mock.calls[0]).values).toMatchObject({
+      size: '1920x1080',
+      watermark: false,
       prompt: expect.stringMatching(
         /^Medium shot\. A diner at dawn .*Shot on large format cinema camera/
       )
@@ -321,7 +337,7 @@ describe('CinematicStudio', () => {
     ).toBeInTheDocument()
     await user.click(generateButton())
     await screen.findByAltText(/A diner at dawn/)
-    expect(vi.mocked(router_render).mock.calls[0][1]?.prompt).toContain(
+    expect(sent(vi.mocked(router_render).mock.calls[0]).prompt).toContain(
       'Neon light'
     )
   })
@@ -356,10 +372,10 @@ describe('CinematicStudio', () => {
     await user.click(generateButton())
 
     await screen.findByAltText(/A diner at dawn/)
-    const [slug, parameters] = vi.mocked(router_render).mock.calls[0]
-    expect(slug).toBe(first.referenceSlug)
-    expect(parameters?.reference_images).toEqual([face])
-    expect(parameters?.prompt).toContain(
+    const call = vi.mocked(router_render).mock.calls[0]
+    expect(call[0]).toBe(first.referenceSlug)
+    expect(sent(call).references).toEqual([face])
+    expect(sent(call).prompt).toContain(
       'Keep the character from reference image 1.'
     )
   })
@@ -425,7 +441,9 @@ describe('CinematicStudio', () => {
         async (slug, parameters, options) => {
           if (first.length >= 2) return rendered(slug)
           const prepared = {
-            ...resolveModelRouterRender(options.model, parameters),
+            ...resolveModelRouterRender(options.model, parameters, {
+              form: options.form
+            }),
             body: { take: first.length }
           }
           await options.onPrepared?.(prepared)
@@ -597,11 +615,9 @@ describe('CinematicStudio', () => {
     )
 
     await vi.waitFor(() => expect(router_render).toHaveBeenCalledTimes(2))
-    const [, parameters] = vi.mocked(router_render).mock.calls[1]
-    expect(parameters?.reference_images).toEqual([expect.any(File)])
-    expect(parameters?.prompt).toContain(
-      'Keep the character from reference image 1.'
-    )
+    const rerun = sent(vi.mocked(router_render).mock.calls[1])
+    expect(rerun.references).toEqual([expect.any(File)])
+    expect(rerun.prompt).toContain('Keep the character from reference image 1.')
   })
 
   it('keeps the scene unreferenced when a take can no longer be read', async () => {
@@ -624,8 +640,7 @@ describe('CinematicStudio', () => {
     )
 
     await vi.waitFor(() => expect(router_render).toHaveBeenCalledTimes(2))
-    const [, parameters] = vi.mocked(router_render).mock.calls[1]
-    expect(parameters?.reference_images).toBeUndefined()
+    expect(sent(vi.mocked(router_render).mock.calls[1]).references).toEqual([])
   })
 
   it('renders sample frames in demo mode without calling the Router', async () => {
